@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  open-webui:
+    # 使用您成功拉取的南京大学镜像源
+    image: ghcr.nju.edu.cn/open-webui/open-webui:main
+    container_name: ling-webui
+    restart: always
+    ports:
+      - "3000:8080"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ./data:/app/backend/data
+    environment:
+      # 连接到宿主机的 LM Studio (端口 1234)
+      - OPENAI_API_BASE_URL=http://host.docker.internal:1234/v1
+      - OPENAI_API_KEY=ling-local-key
+      # 启用网页搜索功能 (可选)
+      - ENABLE_RAG_WEB_SEARCH=True
